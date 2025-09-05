@@ -101,7 +101,7 @@ if role_id:
                                             role = guild.get_role(role_id)
 member = guild.get_member(payload.user_id)
 if member and role:
-for emoji, r_id in EMOJI_ROLE_MAP_1.items():
+    for emoji, r_id in EMOJI_ROLE_MAP_1.items():
 old_role = guild.get_role(r_id)
 if old_role in member.roles:
 await member.remove_roles(old_role)
