@@ -279,7 +279,7 @@ bot.run(os.environ["TOKEN"])
 def start_bot():
        while True:
                try:
-                           keep_alive()  # Start web server
+
 token = os.environ.get("TOKEN")
 if not token:
                                                                    raise ValueError("TOKEN environment variable not set.")
