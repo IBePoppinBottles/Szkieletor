@@ -1,4 +1,4 @@
-app = "szkieletor"
+app = "discord-custom-bot"
 
 [build]
   dockerfile = "Dockerfile"
