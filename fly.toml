@@ -1,4 +1,4 @@
-app = "Szkieletor"
+app = "szkieletor"
 
 [build]
   dockerfile = "Dockerfile"
