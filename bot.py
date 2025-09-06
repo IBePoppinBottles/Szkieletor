@@ -276,7 +276,6 @@ async def zas(ctx):
     await ctx.send("**NO CHYBA WIESZ JAK... JAK SIĘ GRZECZNIE ZACHOWYWAĆ**")
   
 
-keep_alive()
 bot.run(os.getenv("TOKEN"))
 
 

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 app = "discord-custom-bot"
 
 [build]
@@ -11,18 +12,17 @@ app = "discord-custom-bot"
   auto_rollback = true
 =======
 # fly.toml app configuration file generated for discord-custom-bot on 2025-09-06T01:59:30+02:00
+=======
+# fly.toml app configuration file generated for szkieletor on 2025-09-06T20:20:47+02:00
+>>>>>>> f6b1b7c (Update GitHub Actions workflow for Fly deploy)
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'discord-custom-bot'
-primary_region = 'waw'
+app = 'szkieletor'
+primary_region = 'sin'
 
 [build]
-  builder = 'paketobuildpacks/builder:base'
-
-[env]
-  PORT = '8080'
 
 [http_service]
   internal_port = 8080
