@@ -1,2 +1,6 @@
 discord.py
+<<<<<<< HEAD
 pillow
+=======
+python-dotenv
+>>>>>>> e8900b6 (first commit)
