@@ -16,4 +16,5 @@ COPY . .
 # Optional port for health check
 EXPOSE 8080
 
+# Start the bot
 CMD ["python", "main.py"]
