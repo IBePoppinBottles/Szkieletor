@@ -247,33 +247,23 @@ async def badass_skeleton(ctx):
 async def zas(ctx):
     await ctx.send("**NO CHYBA WIESZ JAK... JAK SIĘ GRZECZNIE ZACHOWYWAĆ**")
   
-async def handle(request):
-    return web.Response(text="Bot is running!")
-
 async def run_web_server():
     app = web.Application()
-    app.router.add_get("/", handle)
+    app.router.add_get("/", lambda request: web.Response(text="Bot is running!"))
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, "0.0.0.0", 8080)
     await site.start()
-    logging.info("Web server running on 0.0.0.0:8080")
-
-TOKEN = os.environ.get("TOKEN")
-
-if TOKEN is None:
-    raise ValueError("❌ No TOKEN found in environment variables")
+    print("Web server running on 0.0.0.0:8080")
 
 async def main():
-    await asyncio.gather(
-        bot.start(TOKEN),  # only one bot instance
-        run_web_server()
-    )
+    # start web server first
+    await run_web_server()
+    # then start the bot
+    TOKEN = os.environ.get("TOKEN")
+    if TOKEN is None:
+        raise ValueError("❌ No TOKEN found in environment variables")
+    await bot.start(TOKEN)  # only start bot, no client
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        print("Shutting down...")
-
-
+    asyncio.run(main())
