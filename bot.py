@@ -276,14 +276,6 @@ async def zas(ctx):
     await ctx.send("**NO CHYBA WIESZ JAK... JAK SIĘ GRZECZNIE ZACHOWYWAĆ**")
   
 
-TOKEN = os.environ.get("TOKEN")
-
-if TOKEN is None:
-    raise ValueError("❌ No TOKEN found in environment variables")
-
-bot.run(TOKEN)
-
-
 async def run_bot():
     """Tries to start the bot with retries."""
     retries = 0
@@ -366,4 +358,12 @@ async def run_bot():
         else:
             # Reset retry counter if bot shuts down cleanly
             retries = 0
+
+TOKEN = os.environ.get("TOKEN")
+
+if TOKEN is None:
+    raise ValueError("❌ No TOKEN found in environment variables")
+
+bot.run(TOKEN)
+
 
