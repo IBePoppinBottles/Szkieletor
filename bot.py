@@ -2,7 +2,7 @@ import os
 import discord
 import random
 from discord.ext import commands
-from keep_alive import keep_alive
+from aiohttp import web
 import asyncio
 import logging
 import sys
@@ -12,7 +12,8 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 client = discord.Client(intents=intents) 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
 
 bot = commands.Bot(command_prefix="/", intents=intents)
 
@@ -275,46 +276,49 @@ async def badass_skeleton(ctx):
 async def zas(ctx):
     await ctx.send("**NO CHYBA WIESZ JAK... JAK SIĘ GRZECZNIE ZACHOWYWAĆ**")
   
-
 async def run_bot():
-    """Tries to start the bot with retries."""
+    """Start the bot with retries and exponential backoff."""
     retries = 0
-    max_retries = 5
+    max_retries = 10  # maximum retry attempts before full restart
 
     while True:
         try:
             logging.info("Starting Discord bot...")
-            await client.start(os.getenv("Token"))
+            await client.start(os.getenv("TOKEN"))
 
-        except (discord.ConnectionClosed, discord.HTTPException) as e:
+        except (discord.ConnectionClosed, discord.HTTPException, OSError) as e:
             retries += 1
-            wait_time = min(2 ** retries, 60)  # exponential backoff, max 1 min
-            logging.warning(f"Bot disconnected ({e}). Retrying in {wait_time}s...")
+            wait_time = min(2 ** retries, 60)
+            logging.warning(f"Bot disconnected ({type(e).__name__}: {e}). Retrying in {wait_time}s...")
             await asyncio.sleep(wait_time)
 
             if retries >= max_retries:
-                logging.error("Max retries reached. Restarting fresh loop...")
-                retries = 0  # reset retry counter
+                logging.error("Max retries reached. Restarting bot process...")
+                os.execv(sys.executable, ['python'] + sys.argv)
+
+        except asyncio.CancelledError:
+            logging.warning("Bot task cancelled. Retrying in 5s...")
+            await asyncio.sleep(5)
 
         except Exception as e:
             logging.exception(f"Unexpected error: {e}")
-            await asyncio.sleep(10)  # 
+            await asyncio.sleep(15)
+
+        else:
+            retries = 0  # reset retries if bot stops cleanly
 
 @client.event
 async def on_ready():
     logging.info(f"Logged in as {client.user} (ID: {client.user.id})")
     logging.info("Bot is ready!")
 
-
 @client.event
 async def on_message(message: discord.Message):
+    if message.author == client.user:
+        return
     try:
-        if message.author == client.user:
-            return
-
         if message.content.lower() == "ping":
             await message.channel.send("pong 🏓")
-
     except Exception as e:
         logging.exception(f"Error handling message: {e}")
 
@@ -323,41 +327,6 @@ if __name__ == "__main__":
         asyncio.run(run_bot())
     except KeyboardInterrupt:
         logging.info("Bot shut down manually.")
-
-
-async def run_bot():
-    """Main loop that keeps bot alive and reconnects after errors or restarts."""
-    retries = 0
-    max_retries = 10  # adjust as needed
-
-    while True:
-        try:
-            logging.info("Starting Discord bot...")
-            await client.start(os.getenv("TOKEN"))
-            
-        except (discord.ConnectionClosed, discord.HTTPException, OSError) as e:
-            # Handle disconnects, network errors, or Replit restarts
-            retries += 1
-            wait_time = min(2 ** retries, 60)  # exponential backoff
-            logging.warning(f"Bot disconnected ({type(e).__name__}: {e}). Retrying in {wait_time}s...")
-            await asyncio.sleep(wait_time)
-
-            if retries >= max_retries:
-                logging.error("Max retries reached. Restarting fresh process...")
-                os.execv(sys.executable, ['python'] + sys.argv)  # full restart of script
-
-        except asyncio.CancelledError:
-            logging.warning("Bot task cancelled. Restarting...")
-            await asyncio.sleep(5)
-
-        except Exception as e:
-            # Catch-all to prevent crashes
-            logging.exception(f"Unexpected error: {e}")
-            await asyncio.sleep(15)
-
-        else:
-            # Reset retry counter if bot shuts down cleanly
-            retries = 0
 
 TOKEN = os.environ.get("TOKEN")
 
