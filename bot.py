@@ -228,20 +228,13 @@ async def on_member_remove(member):
     if channel:
         await channel.send(f">>> *{member.mention} odszet z serwera 😕 (morze wruci, chociasz wontpie w to...)*")
 
-
-
 @bot.command()
 async def badass_skeleton(ctx):
     url = random.choice(meme_urls)
-
-
-
-# Send local file
     if os.path.exists(url):
         await ctx.send(file=discord.File(url))
     else:
         await ctx.send(url)
-
 
 @bot.command()
 async def zas(ctx):
