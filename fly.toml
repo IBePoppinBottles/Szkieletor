@@ -1,7 +1,5 @@
 app = "szkieletor"
 
-primary_region = "fra"
-
 [build]
   dockerfile = "Dockerfile"
 
