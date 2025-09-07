@@ -11,6 +11,7 @@ primary_region = "waw"
 [[services]]
   internal_port = 8080
   protocol = "tcp"
+  processes = ["app"]
 
   [[services.ports]]
     port = 8080
