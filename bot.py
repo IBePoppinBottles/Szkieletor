@@ -344,22 +344,21 @@ async def run_bot():
 async def handle(request):
     return web.Response(text="Bot is running!")
 
-app = web.Application()
-app.router.add_get("/", handle)
-
 async def run_web_server():
+    app = web.Application()
+    app.router.add_get("/", handle)
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, "0.0.0.0", 8080)
     await site.start()
-    logging.info("Web server is running on 0.0.0.0:8080")
-
+    print("Web server running on 0.0.0.0:8080")
 # ---------- Run both concurrently ----------
 async def main():
-    await asyncio.gather(run_web_server(), run_bot())
+    await asyncio.gather(run_bot(), run_web_server())
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 TOKEN = os.environ.get("TOKEN")
 
