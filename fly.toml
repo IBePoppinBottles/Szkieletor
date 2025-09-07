@@ -3,7 +3,6 @@ primary_region = "waw"
 
 [build]
   dockerfile = "Dockerfile"
-  image = "szkieletor"
 
 [env]
   PYTHONUNBUFFERED = "1"
