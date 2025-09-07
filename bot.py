@@ -94,42 +94,30 @@ async def on_ready():
 
 
 @bot.event
+async def on_ready():
+    logging.info(f"Logged in as {bot.user} (ID: {bot.user.id})")
+    logging.info("Bot is ready!")
+
+@bot.event
 async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
+    guild = bot.get_guild(payload.guild_id)
+    if guild is None:
+        return
+
+    role_id = None
     if payload.message_id == REACTION_MESSAGE_1_ID:
-        guild = bot.get_guild(payload.guild_id)
         role_id = EMOJI_ROLE_MAP_1.get(str(payload.emoji))
-        if role_id:
-            role = guild.get_role(role_id)
-            member = guild.get_member(payload.user_id)
-            if member and role:
-                for emoji, r_id in EMOJI_ROLE_MAP_1.items():
-                    old_role = guild.get_role(r_id)
-                    if old_role in member.roles:
-                        await member.remove_roles(old_role)
-                await member.add_roles(role)
-                print(f"🎨 Changed {member.display_name}'s color to {role.color}")
-
-
-    if payload.message_id == REACTION_MESSAGE_2_ID:
-        guild = bot.get_guild(payload.guild_id)
+    elif payload.message_id == REACTION_MESSAGE_2_ID:
         role_id = EMOJI_ROLE_MAP_2.get(str(payload.emoji))
-        if role_id:
-            role = guild.get_role(role_id)
-            member = guild.get_member(payload.user_id)
-            if member and role:
-                await member.add_roles(role)
-                print(f"✅ Gave {member.display_name} role {role.name}")
-
-
-    if payload.message_id == REACTION_MESSAGE_3_ID:
-        guild = bot.get_guild(payload.guild_id)
+    elif payload.message_id == REACTION_MESSAGE_3_ID:
         role_id = EMOJI_ROLE_MAP_3.get(str(payload.emoji))
-        if role_id:
-            role = guild.get_role(role_id)
-            member = guild.get_member(payload.user_id)
-            if member and role:
-                await member.add_roles(role)
-                print(f"✅ Gave {member.display_name} role {role.name}")
+
+    if role_id:
+        role = guild.get_role(role_id)
+        member = guild.get_member(payload.user_id)
+        if member and role:
+            await member.add_roles(role)
+            logging.info(f"✅ Added role {role.name} to {member.display_name}")
 
 @bot.event
 async def on_raw_reaction_remove(payload: discord.RawReactionActionEvent):
@@ -137,37 +125,20 @@ async def on_raw_reaction_remove(payload: discord.RawReactionActionEvent):
     if guild is None:
         return
 
-
+    role_id = None
     if payload.message_id == REACTION_MESSAGE_1_ID:
         role_id = EMOJI_ROLE_MAP_1.get(str(payload.emoji))
-        if role_id:
-            role = guild.get_role(role_id)
-            member = guild.get_member(payload.user_id)
-            if member and role and role in member.roles:
-                await member.remove_roles(role)
-                print(f"❌ Removed color {role.color} from {member.display_name}")
-
-
-    if payload.message_id == REACTION_MESSAGE_2_ID:
+    elif payload.message_id == REACTION_MESSAGE_2_ID:
         role_id = EMOJI_ROLE_MAP_2.get(str(payload.emoji))
-        if role_id:
-            role = guild.get_role(role_id)
-            member = guild.get_member(payload.user_id)
-            if member and role and role in member.roles:
-                await member.remove_roles(role)
-                print(f"❌ Removed role {role.name} from {member.display_name}")
-
-
-    if payload.message_id == REACTION_MESSAGE_3_ID:
+    elif payload.message_id == REACTION_MESSAGE_3_ID:
         role_id = EMOJI_ROLE_MAP_3.get(str(payload.emoji))
-        if role_id:
-            role = guild.get_role(role_id)
-            member = guild.get_member(payload.user_id)
-            if member and role and role in member.roles:
-                await member.remove_roles(role)
-                print(f"❌ Removed role {role.name} from {member.display_name}")
 
-
+    if role_id:
+        role = guild.get_role(role_id)
+        member = guild.get_member(payload.user_id)
+        if member and role and role in member.roles:
+            await member.remove_roles(role)
+            logging.info(f"❌ Removed role {role.name} from {member.display_name}")
 
 
 @bot.command()
@@ -276,71 +247,6 @@ async def badass_skeleton(ctx):
 async def zas(ctx):
     await ctx.send("**NO CHYBA WIESZ JAK... JAK SIĘ GRZECZNIE ZACHOWYWAĆ**")
   
-async def run_bot():
-    """Start the bot with retries and exponential backoff."""
-    retries = 0
-    max_retries = 10  # maximum retry attempts before full restart
-
-    while True:
-        try:
-            logging.info("Starting Discord bot...")
-            await client.start(os.getenv("TOKEN"))
-
-        except (discord.ConnectionClosed, discord.HTTPException, OSError) as e:
-            retries += 1
-            wait_time = min(2 ** retries, 60)
-            logging.warning(f"Bot disconnected ({type(e).__name__}: {e}). Retrying in {wait_time}s...")
-            await asyncio.sleep(wait_time)
-
-            if retries >= max_retries:
-                logging.error("Max retries reached. Restarting bot process...")
-                os.execv(sys.executable, ['python'] + sys.argv)
-
-        except asyncio.CancelledError:
-            logging.warning("Bot task cancelled. Retrying in 5s...")
-            await asyncio.sleep(5)
-
-        except Exception as e:
-            logging.exception(f"Unexpected error: {e}")
-            await asyncio.sleep(15)
-
-        else:
-            retries = 0  # reset retries if bot stops cleanly
-
-@client.event
-async def on_ready():
-    logging.info(f"Logged in as {client.user} (ID: {client.user.id})")
-    logging.info("Bot is ready!")
-
-@client.event
-async def on_message(message: discord.Message):
-    if message.author == client.user:
-        return
-    try:
-        if message.content.lower() == "ping":
-            await message.channel.send("pong 🏓")
-    except Exception as e:
-        logging.exception(f"Error handling message: {e}")
-
-if __name__ == "__main__":
-    try:
-        asyncio.run(run_bot())
-    except KeyboardInterrupt:
-        logging.info("Bot shut down manually.")
-
-async def run_bot():
-    """Main loop to run the bot safely with reconnects."""
-    while True:
-        try:
-            await client.start(os.getenv("TOKEN"))
-        except (discord.ConnectionClosed, discord.HTTPException) as e:
-            logging.warning(f"Bot disconnected ({e}), retrying in 10s...")
-            await asyncio.sleep(10)
-        except Exception as e:
-            logging.exception(f"Unexpected error: {e}")
-            await asyncio.sleep(10)
-
-# ---------- Web server setup ----------
 async def handle(request):
     return web.Response(text="Bot is running!")
 
@@ -351,20 +257,23 @@ async def run_web_server():
     await runner.setup()
     site = web.TCPSite(runner, "0.0.0.0", 8080)
     await site.start()
-    print("Web server running on 0.0.0.0:8080")
-# ---------- Run both concurrently ----------
-async def main():
-    await asyncio.gather(run_bot(), run_web_server())
-
-if __name__ == "__main__":
-    asyncio.run(main())
-
+    logging.info("Web server running on 0.0.0.0:8080")
 
 TOKEN = os.environ.get("TOKEN")
 
 if TOKEN is None:
     raise ValueError("❌ No TOKEN found in environment variables")
 
-bot.run(TOKEN)
+async def main():
+    await asyncio.gather(
+        bot.start(TOKEN),  # only one bot instance
+        run_web_server()
+    )
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Shutting down...")
 
 
