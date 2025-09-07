@@ -3,9 +3,17 @@ primary_region = "waw"
 
 [build]
   dockerfile = "Dockerfile"
+  image = "szkieletor"
 
 [env]
   PYTHONUNBUFFERED = "1"
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 8080
 
 [processes]
   app = "python bot.py"
