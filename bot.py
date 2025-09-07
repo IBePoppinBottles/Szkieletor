@@ -328,6 +328,39 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         logging.info("Bot shut down manually.")
 
+async def run_bot():
+    """Main loop to run the bot safely with reconnects."""
+    while True:
+        try:
+            await client.start(os.getenv("TOKEN"))
+        except (discord.ConnectionClosed, discord.HTTPException) as e:
+            logging.warning(f"Bot disconnected ({e}), retrying in 10s...")
+            await asyncio.sleep(10)
+        except Exception as e:
+            logging.exception(f"Unexpected error: {e}")
+            await asyncio.sleep(10)
+
+# ---------- Web server setup ----------
+async def handle(request):
+    return web.Response(text="Bot is running!")
+
+app = web.Application()
+app.router.add_get("/", handle)
+
+async def run_web_server():
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", 8080)
+    await site.start()
+    logging.info("Web server is running on 0.0.0.0:8080")
+
+# ---------- Run both concurrently ----------
+async def main():
+    await asyncio.gather(run_web_server(), run_bot())
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
 TOKEN = os.environ.get("TOKEN")
 
 if TOKEN is None:
