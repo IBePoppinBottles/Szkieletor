@@ -276,7 +276,12 @@ async def zas(ctx):
     await ctx.send("**NO CHYBA WIESZ JAK... JAK SIĘ GRZECZNIE ZACHOWYWAĆ**")
   
 
-bot.run(os.getenv("TOKEN"))
+TOKEN = os.environ.get("TOKEN")
+
+if TOKEN is None:
+    raise ValueError("❌ No TOKEN found in environment variables")
+
+bot.run(TOKEN)
 
 
 async def run_bot():
