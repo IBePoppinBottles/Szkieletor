@@ -231,6 +231,7 @@ async def on_member_remove(member):
 @bot.command()
 async def badass_skeleton(ctx):
     url = random.choice(meme_urls)
+
     if os.path.isfile(url):
         await ctx.send(file=discord.File(url))
     else:
