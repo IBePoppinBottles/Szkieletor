@@ -17,9 +17,6 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 
 bot = commands.Bot(command_prefix="/", intents=intents)
 
-local_files = [
-    r"C:\Users\Acer\Downloads\snaptik_7351445890642545963_v2.mp4"
-]
 
 # Badass skeleton meme URLs
 meme_urls = [
@@ -47,7 +44,7 @@ meme_urls = [
     "https://i.imgflip.com/65h8op.jpg",
     "https://i.pinimg.com/736x/72/f1/ab/72f1abc9a21628ea56709ace202ee521.jpg",
     "https://i.imgflip.com/7vrr6j.jpg",
-    r"C:\Users\Acer\Downloads\snaptik_7351445890642545963_v2.mp4"
+    "videos/snaptik_7351445890642545963_v2.mp4"
 ]
 
 # --- CONFIG ---
@@ -231,11 +228,10 @@ async def on_member_remove(member):
 @bot.command()
 async def badass_skeleton(ctx):
     url = random.choice(meme_urls)
-
-    if os.path.isfile(url):
-        await ctx.send(file=discord.File(url))
+    if choice.startswith("https"):
+        await ctx.send(choice)
     else:
-        await ctx.send(url)
+        await ctx.send(file=discord.File(choice))
 
 @bot.command()
 async def zas(ctx):
