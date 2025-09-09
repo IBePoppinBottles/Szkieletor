@@ -44,7 +44,7 @@ meme_urls = [
     "https://i.imgflip.com/65h8op.jpg",
     "https://i.pinimg.com/736x/72/f1/ab/72f1abc9a21628ea56709ace202ee521.jpg",
     "https://i.imgflip.com/7vrr6j.jpg",
-    "videos/snaptik_7351445890642545963_v2.mp4"
+    r"C:\Users\Acer\Downloads\snaptik_7351445890642545963_v2.mp4"
 ]
 
 # --- CONFIG ---
@@ -229,10 +229,10 @@ async def on_member_remove(member):
 async def badass_skeleton(ctx):
     choice = random.choice(meme_urls)
     
-   if choice.startswith("http"):
-    await ctx.send(choice)
-else:
-    await ctx.send(file=discord.File(choice))
+    if os.path.exists(choice):
+        await ctx.send(file=discord.File(choice))
+    else:
+        await ctx.send(choice)
 
 @bot.command()
 async def zas(ctx):
