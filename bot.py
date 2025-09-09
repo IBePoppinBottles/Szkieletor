@@ -228,11 +228,13 @@ async def on_member_remove(member):
 @bot.command()
 async def badass_skeleton(ctx):
     choice = random.choice(meme_urls)
+    
     if choice.startswith("http"):
         await ctx.send(choice)
     else:
-        await ctx.send(file=discord.File(choice))
-
+        file = discord.File(choice)
+        await ctx.send(file=file)
+    
 @bot.command()
 async def zas(ctx):
     await ctx.send("**NO CHYBA WIESZ JAK... JAK SIĘ GRZECZNIE ZACHOWYWAĆ**")
