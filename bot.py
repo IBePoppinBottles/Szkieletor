@@ -26,7 +26,6 @@ meme_urls = [
     "https://i.imgflip.com/7xmn8n.jpg", 
     "https://i.pinimg.com/736x/f0/1b/0e/f01b0e86d551a75ccf8c84b0826d0a11.jpg",
     "https://i.pinimg.com/1200x/cd/f8/7a/cdf87a5186c87047c25080d3410ed946.jpg",
-    "https://i.pinimg.com/1200x/cd/f8/7a/cdf87a5186c87047c25080d3410ed946.jpg",
     "https://i.pinimg.com/1200x/2b/85/50/2b8550fb9b4e06d042eb5f5c05b618f1.jpg",
     "https://i.imgflip.com/6nd72z.jpg",
     "https://pbs.twimg.com/media/FeqDHE0WYAA0YTK.jpg",
