@@ -227,7 +227,7 @@ async def on_member_remove(member):
 
 @bot.command()
 async def badass_skeleton(ctx):
-    url = random.choice(meme_urls)
+    choice = random.choice(meme_urls)
     if choice.startswith("http"):
         await ctx.send(choice)
     else:
