@@ -229,9 +229,11 @@ async def badass_skeleton(ctx):
     choice = random.choice(meme_urls)
     
    if choice.startswith("http"):
-       await ctx.send(choice)
-   else:
-       await ctx.send(file=discord.File(choice))
+        embed = discord.Embed()
+        embed.set_image(url=choice)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send(file=discord.File(choice))
 
 @bot.command()
 async def zas(ctx):
