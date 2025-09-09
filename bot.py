@@ -3,6 +3,7 @@ import discord
 import random
 from discord.ext import commands
 from aiohttp import web
+from random import choice
 import asyncio
 import logging
 import sys
