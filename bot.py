@@ -232,21 +232,17 @@ async def on_member_remove(member):
 async def badass_skeleton(ctx):
     global last_choice
 
-    # Make a list excluding last_choice to avoid repeats
     options = [item for item in meme_urls if item != last_choice] or meme_urls
     choice = random.choice(options)
     last_choice = choice
 
-    print(f"[DEBUG] Selected: {choice}")  # check Fly.io logs
+    print(f"[DEBUG] Selected: {choice}") 
 
     try:
         if choice.startswith("http"):
-            # Send URL directly
             await ctx.send(choice)
         else:
-            # Check if file exists
             if os.path.exists(choice):
-                # Send local file
                 await ctx.send(file=discord.File(choice))
             else:
                 await ctx.send(f"⚠️ File not found: {choice}")
