@@ -44,7 +44,7 @@ meme_urls = [
     "https://i.imgflip.com/65h8op.jpg",
     "https://i.pinimg.com/736x/72/f1/ab/72f1abc9a21628ea56709ace202ee521.jpg",
     "https://i.imgflip.com/7vrr6j.jpg",
-    r"C:\Users\Acer\Downloads\snaptik_7351445890642545963_v2.mp4"
+    "videos/snaptik_7351445890642545963_v2.mp4"
 ]
 
 # --- CONFIG ---
