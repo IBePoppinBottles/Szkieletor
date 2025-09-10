@@ -18,6 +18,8 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 
 bot = commands.Bot(command_prefix="/", intents=intents)
 
+last_choice = None
+
 
 # Badass skeleton meme URLs
 meme_urls = [
@@ -224,8 +226,7 @@ async def on_member_remove(member):
     channel = discord.utils.get(member.guild.text_channels, name="żegnamy")
     if channel:
         await channel.send(f">>> *{member.mention} odszet z serwera 😕 (morze wruci, chociasz wontpie w to...)*")
-
-last_choice = None
+        
 
 @bot.command()
 async def badass_skeleton(ctx):
