@@ -225,10 +225,14 @@ async def on_member_remove(member):
     if channel:
         await channel.send(f">>> *{member.mention} odszet z serwera 😕 (morze wruci, chociasz wontpie w to...)*")
 
+last_choice = None
+
 @bot.command()
 async def badass_skeleton(ctx):
-    choice = random.choice(meme_urls)
-    
+    global last_choice
+    options = [item for item in meme_urls if item != last_choice]
+    choice = random.choice(options)
+    last_choice = choice
     if os.path.exists(choice):
         await ctx.send(file=discord.File(choice))
     else:
