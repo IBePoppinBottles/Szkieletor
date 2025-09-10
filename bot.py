@@ -233,10 +233,10 @@ async def badass_skeleton(ctx):
     options = [item for item in meme_urls if item != last_choice]
     choice = random.choice(options)
     last_choice = choice
-    if os.path.exists(choice):
-        await ctx.send(file=discord.File(choice))
-    else:
+    if choice.startswith("http"):
         await ctx.send(choice)
+    else:
+        await ctx.send(file=discord.File(choice))
 
 @bot.command()
 async def zas(ctx):
