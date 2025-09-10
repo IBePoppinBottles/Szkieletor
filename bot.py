@@ -218,7 +218,7 @@ async def on_member_join(member):
     if channel_1:
         await channel_1.send(f">>> 🔥 **WITAJ {member.mention} W NASZE ZAJEBIŚCIE ZAJEBISTE PROGI!** 🔥 ***(jak postanowisz griefować naszą ściane to wezwę moją mame...)***")
     if channel_2:
-        await channel_2.send(f"WITAM, WITAM, **GORĄCO** WITAM {member.mention} 🔥🔥")
+        await channel_2.send(f"WITAMY, WITAMY, **GORĄCO** WITAMY {member.mention} 🔥🔥")
 
 
 @bot.event
