@@ -234,6 +234,8 @@ async def badass_skeleton(ctx):
     options = [item for item in meme_urls if item != last_choice] or meme_urls
     choice = random.choice(options)
     last_choice = choice
+
+     print(f"[DEBUG] Chosen meme: {choice}")
     
     if choice.startswith("http"):
         await ctx.send(choice)
