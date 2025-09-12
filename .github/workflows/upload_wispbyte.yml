@@ -30,3 +30,4 @@ jobs:
           WISPBYTE_SERVER_URL: ${{ secrets.WISPBYTE_SERVER_URL }}
         run: |
           python upload_wispbyte.py
+
