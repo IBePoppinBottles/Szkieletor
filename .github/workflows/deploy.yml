@@ -3,20 +3,30 @@ name: Deploy to Wispbyte
 on:
   push:
     branches:
-      - main
+      - main   # or whatever branch you want
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Zip files
-        run: zip -r bot.zip .
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-      - name: Upload to Wispbyte
+      - name: Install dependencies
         run: |
-          curl -X POST https://api.wispbyte.com/v1/bots/YOUR_BOT_ID/deploy \
-          -H "Authorization: Bearer ${{ secrets.WISPBYTE_API_KEY }}" \
-          -F "file=@bot.zip"
+          pip install playwright requests
+          python -m playwright install
+
+      - name: Run deploy script
+        env:
+          WISPBYTE_EMAIL: ${{ secrets.WISPBYTE_EMAIL }}
+          WISPBYTE_PASSWORD: ${{ secrets.WISPBYTE_PASSWORD }}
+          WISPBYTE_SERVER_URL: ${{ secrets.WISPBYTE_SERVER_URL }}
+        run: |
+          python deploy_wispbyte.py
