@@ -8,7 +8,6 @@ import asyncio
 import logging
 import sys
 
-
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
