@@ -1,0 +1,22 @@
+name: Deploy to Wispbyte
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Zip files
+        run: zip -r bot.zip .
+
+      - name: Upload to Wispbyte
+        run: |
+          curl -X POST https://api.wispbyte.com/v1/bots/YOUR_BOT_ID/deploy \
+          -H "Authorization: Bearer ${{ secrets.WISPBYTE_API_KEY }}" \
+          -F "file=@bot.zip"
