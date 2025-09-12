@@ -254,6 +254,18 @@ async def badass_skeleton(ctx):
 @bot.command()
 async def zas(ctx):
     await ctx.send("**NO CHYBA WIESZ JAK... JAK SIĘ GRZECZNIE ZACHOWYWAĆ**")
+
+INPUT_CHANNEL_ID = 1413478387191906324   # channel where users must type the command
+OUTPUT_CHANNEL_ID = 1411817760522244158  # channel where the bot replies
+
+@bot.command()
+async def griefer(ctx):
+    if ctx.channel.id != INPUT_CHANNEL_ID:
+        return
+
+    output_channel = bot.get_channel(OUTPUT_CHANNEL_ID)
+    if output_channel:
+        await output_channel.send(f">>> 🔥 **@everyone GRIEFER ALERT! PROSIMY KAŻDEGO O SKORZYSTANIE Z METOD** *(najlepiej wszystkich)* **ZAMIESZCZONYCH NA KANALE <#1414252414034251909>, ABY CAŁKOWICIE UNICESTWIĆ TEGO GÓWNOJADA!!**")
   
 async def run_web_server():
     app = web.Application()
