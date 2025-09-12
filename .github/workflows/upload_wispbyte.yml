@@ -1,16 +1,16 @@
-name: Deploy to Wispbyte
+name: Upload to Wispbyte
 
 on:
   push:
     branches:
-      - main   # or whatever branch you want
+      - main  
 
 jobs:
-  deploy:
-    runs-on: self-hosted
+  upload:
+    runs-on: self-hosted  
 
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -23,10 +23,10 @@ jobs:
           pip install playwright requests
           python -m playwright install
 
-      - name: Run deploy script
+      - name: Run Wispbyte upload
         env:
           WISPBYTE_EMAIL: ${{ secrets.WISPBYTE_EMAIL }}
           WISPBYTE_PASSWORD: ${{ secrets.WISPBYTE_PASSWORD }}
           WISPBYTE_SERVER_URL: ${{ secrets.WISPBYTE_SERVER_URL }}
         run: |
-          python deploy_wispbyte.py
+          python upload_wispbyte.py
