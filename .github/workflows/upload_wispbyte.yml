@@ -29,5 +29,6 @@ jobs:
           WISPBYTE_PASSWORD: ${{ secrets.WISPBYTE_PASSWORD }}
           WISPBYTE_SERVER_URL: ${{ secrets.WISPBYTE_SERVER_URL }}
         run: |
-          python upload_wispbyte.py
+          powershell -ExecutionPolicy Bypass -File upload_wispbyte.py
+
 
