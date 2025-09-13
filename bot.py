@@ -4,6 +4,7 @@ import random
 from discord.ext import commands
 from aiohttp import web
 from random import choice
+from dotenv import load_dotenv
 import asyncio
 import logging
 import sys
@@ -275,11 +276,13 @@ async def run_web_server():
     await site.start()
     print("Web server running on 0.0.0.0:8080")
 
+load_dotenv()
+
 async def main():
     # start web server first
     await run_web_server()
     # then start the bot
-    TOKEN = os.environ.get("TOKEN")
+    TOKEN = os.getenv("TOKEN")
     if TOKEN is None:
         raise ValueError("❌ No TOKEN found in environment variables")
     await bot.start(TOKEN)  # only start bot, no client
