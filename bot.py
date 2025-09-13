@@ -265,7 +265,7 @@ async def griefer(ctx):
 
     output_channel = bot.get_channel(OUTPUT_CHANNEL_ID)
     if output_channel:
-        await output_channel.send(f">>> 🔥 **@everyone GRIEFER ALERT! PROSIMY KAŻDEGO O SKORZYSTANIE Z METOD** *(najlepiej wszystkich)* **ZAMIESZCZONYCH NA KANALE <#1414252414034251909>, ABY CAŁKOWICIE UNICESTWIĆ TEGO GÓWNOJADA!!**")
+        await output_channel.send(f">>> **@everyone GRIEFER ALERT! PROSIMY KAŻDEGO O SKORZYSTANIE Z METOD** *(najlepiej wszystkich)* **ZAMIESZCZONYCH NA KANALE <#1414252414034251909>, ABY CAŁKOWICIE UNICESTWIĆ TEGO KASZOJADA!!**")
   
 async def run_web_server():
     app = web.Application()
