@@ -1,0 +1,23 @@
+name: Upload to Wispbyte
+
+on:
+  push:
+    branches:
+      - main  # or your branch
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Zip repo contents
+        run: zip -r bot.zip . -x '*.git*'
+
+      - name: Upload to Wispbyte
+        run: |
+          curl -X POST "https://wispbyte.com/api/servers/YOUR_SERVER_ID/upload" \
+          -H "Authorization: Bearer ${{ secrets.WISPBYTE_TOKEN }}" \
+          -F "file=@bot.zip"
