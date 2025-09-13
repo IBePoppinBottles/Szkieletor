@@ -5,8 +5,8 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 # -------- CONFIG --------
-GITHUB_USER = "your-username"
-GITHUB_REPO = "your-repo"
+GITHUB_USER = "IBePoppinBottles"
+GITHUB_REPO = "Szkieletor"
 BRANCH = "main"  # or master
 
 WISPBYTE_EMAIL = os.getenv("WISPBYTE_EMAIL")
