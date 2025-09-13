@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 # -------- CONFIG --------
 GITHUB_USER = "IBePoppinBottles"
 GITHUB_REPO = "Szkieletor"
-BRANCH = "main"  # or master
+BRANCH = "main" 
 
 WISPBYTE_EMAIL = os.getenv("WISPBYTE_EMAIL")
 WISPBYTE_PASSWORD = os.getenv("WISPBYTE_PASSWORD")
