@@ -1,1 +1,1 @@
-🔥Szkieletor🔥 xd
+🔥Szkieletor🔥
