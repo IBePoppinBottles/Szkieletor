@@ -31,33 +31,34 @@ def create_zip():
 
 
 def upload_zip():
-    """Login and upload bot.zip to Wispbyte (manual upload)."""
+    print("[DEBUG] Launching browser...")
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
-        
+        print("[DEBUG] Logging into Wispbyte...")
         page.goto("https://wispbyte.com/client/login")
-        page.fill("input[name='Email or Username']", EMAIL)
-        page.fill("input[name='Password']", PASSWORD)
-        page.click("button[type='Log In']")
+        page.fill('input[name="email"]', EMAIL)
+        page.fill('input[name="password"]', PASSWORD)
+        page.click('button[type="submit"]')
         page.wait_for_load_state("networkidle")
-
         
         page.goto(SERVER_URL)
         page.wait_for_load_state("networkidle")
     
+        print("[DEBUG] Clicking upload buttons...")
         page.click("button:has-text('Upload')")
         page.click("button:has-text('upload manually')")
 
         
+        print("[DEBUG] Selecting file...")
         with page.expect_file_chooser() as fc_info:
             page.click("input[type='file']")
         file_chooser = fc_info.value
         file_chooser.set_files(ZIP_FILE)
-
         print(f"[INFO] Uploaded {ZIP_FILE} to Wispbyte.")
 
+        print("[DEBUG] Upload complete!")
         browser.close()
 
 
