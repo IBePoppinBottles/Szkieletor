@@ -41,7 +41,8 @@ def upload_zip():
         page.fill('input[name="email"]', EMAIL)
         page.fill('input[name="password"]', PASSWORD)
         page.click('button[type="submit"]')
-        page.wait_for_load_state("networkidle")
+        page.wait_for_selector("text=Szkieletor", timeout=60000)
+        print("[DEBUG] Logged in successfully!")
         
         page.goto(SERVER_URL)
         page.wait_for_load_state("networkidle")
