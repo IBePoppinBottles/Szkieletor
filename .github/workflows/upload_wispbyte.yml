@@ -20,7 +20,7 @@ jobs:
       - name: Install Python packages
         run: |
           pip install playwright requests
-          python -m playwright install
+          python -m playwright install chromium
 
       - name: Create ZIP of repo
         run: |
