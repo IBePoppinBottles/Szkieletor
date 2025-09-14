@@ -31,6 +31,6 @@ jobs:
         env:
           WISPBYTE_EMAIL: ${{ secrets.WISPBYTE_EMAIL }}
           WISPBYTE_PASSWORD: ${{ secrets.WISPBYTE_PASSWORD }}
-          SERVER_URL: ${{ secrets.WISPBYTE_SERVER_URL }}
+          WISPBYTE_SERVER_URL: ${{ secrets.WISPBYTE_SERVER_URL }}
         run: |
           python .github/scripts/upload_wispbyte.py
