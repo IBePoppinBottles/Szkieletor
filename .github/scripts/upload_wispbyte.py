@@ -15,20 +15,20 @@ with zipfile.ZipFile(zip_filename, "w") as zipf:
 # 2️⃣ Upload via Playwright
 email = os.environ["WISPBYTE_EMAIL"]
 password = os.environ["WISPBYTE_PASSWORD"]
-server_url = os.environ["SERVER_URL"]
+server_url = os.environ["WISPBYTE_SERVER_URL"]
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)
     page = browser.new_page()
     
     # Go to Wispbyte login page
-    page.goto("https://wispbyte.com/login")
-    page.fill("input[name='email']", email)
-    page.fill("input[name='password']", password)
-    page.click("button[type='submit']")
+    page.goto("https://wispbyte.com/client/login")
+    page.fill("input[name='Email or Username']", email)
+    page.fill("input[name='Password']", password)
+    page.click("button[type='Log In']")
     page.wait_for_load_state("networkidle")
     
-    # Go to server console page
+    # Go to server files page
     page.goto(server_url)
     
     # Click upload button (update the selector to match Wispbyte's upload button)
