@@ -3,30 +3,29 @@ name: Upload to Wispbyte
 on:
   push:
     branches:
-      - main  # or your branch
-
+      - main
 jobs:
   upload:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      # Step 3: Install dependencies
       - name: Install Python packages
         run: |
           pip install playwright requests
           python -m playwright install
 
-      # Step 4: Run Playwright script to upload
+      - name: Create ZIP of repo
+        run: |
+          zip -r bot.zip .
+
       - name: Upload to Wispbyte
         env:
           WISPBYTE_EMAIL: ${{ secrets.WISPBYTE_EMAIL }}
