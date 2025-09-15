@@ -41,6 +41,8 @@ def upload_zip():
         page.fill('input[name="email"]', EMAIL)
         page.fill('input[name="password"]', PASSWORD)
         page.click('button[type="submit"]')
+        print("[DEBUG] Taking screenshot after login...")
+        page.screenshot(path="after_login.png", full_page=True)
         page.wait_for_selector("text=Szkieletor", timeout=60000)
         print("[DEBUG] Logged in successfully!")
         
