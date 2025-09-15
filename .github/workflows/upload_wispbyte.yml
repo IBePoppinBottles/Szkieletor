@@ -33,3 +33,10 @@ jobs:
           WISPBYTE_SERVER_URL: ${{ secrets.WISPBYTE_SERVER_URL }}
         run: |
           python .github/scripts/upload_wispbyte.py
+
+      - name: Upload debug screenshot
+        if: always()  
+        uses: actions/upload-artifact@v3
+        with:
+          name: after-login-screenshot
+          path: after_login.png
