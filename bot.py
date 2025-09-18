@@ -1,6 +1,7 @@
 import os
 import discord
 import random
+import subprocess
 from discord.ext import commands
 from aiohttp import web
 from random import choice
@@ -277,6 +278,17 @@ async def run_web_server():
     print("Web server running on 0.0.0.0:8080")
 
 load_dotenv()
+
+epo_url = "https://github.com/IBePoppinBottles/Szkieletor.git"
+repo_path = "/home/container"
+
+# If folder is not a git repo, clone it
+if not os.path.exists(os.path.join(repo_path, ".git")):
+    subprocess.run(["git", "clone", repo_url, repo_path])
+else:
+    # Otherwise, pull latest changes
+    subprocess.run(["git", "-C", repo_path, "pull"])
+
 
 async def main():
     # start web server first
