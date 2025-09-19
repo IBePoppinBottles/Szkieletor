@@ -279,7 +279,7 @@ async def run_web_server():
 
 load_dotenv()
 
-epo_url = "https://github.com/IBePoppinBottles/Szkieletor.git"
+repo_url = "https://github.com/IBePoppinBottles/Szkieletor.git"
 repo_path = "/home/container"
 
 # If folder is not a git repo, clone it
