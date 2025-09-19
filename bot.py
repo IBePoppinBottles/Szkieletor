@@ -282,13 +282,14 @@ load_dotenv()
 repo_url = "https://github.com/IBePoppinBottles/Szkieletor.git"
 repo_path = "/home/container"
 
-# If folder is not a git repo, clone it
-if not os.path.exists(os.path.join(repo_path, ".git")):
-    subprocess.run(["git", "clone", repo_url, repo_path])
-else:
-    # Otherwise, pull latest changes
-    subprocess.run(["git", "-C", repo_path, "pull"])
+git_dir = os.path.join(repo_path, ".git")
 
+if os.path.exists(git_dir):
+    # Repo already exists → pull latest changes
+    subprocess.run(["git", "-C", repo_path, "pull"])
+else:
+    # Repo does not exist → clone
+    subprocess.run(["git", "clone", repo_url, repo_path])
 
 async def main():
     # start web server first
